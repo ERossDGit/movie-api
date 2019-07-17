@@ -45,6 +45,7 @@ let topTenMovies = [
 ];
 
 // GET requests
+app.use(express.static("public"));
 app.get("/", function(req, res) {
   res.send("Welcome to my movie app!");
 });
