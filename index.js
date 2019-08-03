@@ -10,6 +10,9 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const passport = require("passport");
+require("./passport");
+
 mongoose.connect(
   "mongodb://localhost:27017/myFlixDB",
   { useNewUrlParser: true }
@@ -24,8 +27,13 @@ app.use(function(err, req, res, next) {
   res.status(500).send("There has been an error.");
 });
 
+var auth = require("./auth")(app);
+
 // Gets list of all movies
-app.get("/movies", function(req, res) {
+app.get("/movies", passport.authenticate("jwt", { session: false }), function(
+  req,
+  res
+) {
   Movies.find()
     .then(function(movies) {
       res.status(201).json(movies);
