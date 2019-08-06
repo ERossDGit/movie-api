@@ -13,6 +13,10 @@ const Users = Models.User;
 const passport = require("passport");
 require("./passport");
 
+//require express validator
+const validator = require("express-validator");
+app.use(validator());
+
 // Setup CORS
 const cors = require("cors");
 var allowedOrigins = ["http://localhost:8080"];
@@ -121,6 +125,22 @@ app.get(
  Birthday : Date
 }*/
 app.post("/users", function(req, res) {
+  // Validation logic
+  req.checkBody("Username", "Username is requried").notEmpty();
+  req
+    .checkBody("Username", "Username contains non alphanumeric characters")
+    .isAlphanumeric();
+  req.checkBody("Password", "Password is required").notEmpty();
+  req.checkBody("Email", "Email is requried").notEmpty();
+  req.checkBody("Email", "Email does not appear to be valid").isEmail();
+
+  //check the validation object for errors
+  var errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(422).json({ errors: errors });
+  }
+
   var hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then(function(user) {
@@ -190,32 +210,45 @@ app.get(
   (required)
   Birthday: Date
 }*/
-app.put(
-  "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
-  function(req, res) {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $set: {
-          UserName: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        }
-      },
-      { new: true }, //This line makes sure that the updated document is returned
-      function(err, updatedUser) {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedUser);
-        }
-      }
-    );
+app.put("/users/:Username", function(req, res) {
+  // Validation logic
+  req.checkBody("Username", "Username is requried").notEmpty();
+  req
+    .checkBody("Username", "Username contains non alphanumeric characters")
+    .isAlphanumeric();
+  req.checkBody("Password", "Password is required").notEmpty();
+  req.checkBody("Email", "Email is requried").notEmpty();
+  req.checkBody("Email", "Email does not appear to be valid").isEmail();
+
+  //check the validation object for errors
+  var errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(422).json({ errors: errors });
   }
-);
+
+  var hashedPassword = Users.hashPassword(req.body.Password);
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $set: {
+        UserName: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    },
+    { new: true }, //This line makes sure that the updated document is returned
+    function(err, updatedUser) {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
 
 // Adds movie to favorites for a user
 app.post(
