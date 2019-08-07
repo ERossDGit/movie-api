@@ -317,4 +317,7 @@ app.delete(
 );
 
 // listen for requests
-app.listen(8080, () => console.log("My movie app is listening on port 8080."));
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+  console.log("Listening on Port 3000");
+});
