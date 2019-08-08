@@ -36,8 +36,12 @@ app.use(
   })
 );
 
+// mongoose.connect(
+//   "mongodb://localhost:27017/myFlixDB",
+//   { useNewUrlParser: true }
+// );
 mongoose.connect(
-  "mongodb://localhost:27017/myFlixDB",
+  "mongodb+srv://erossd_admin:SALVotP89@erossd-cluster-qffpf.mongodb.net/myFlixDB?retryWrites=true&w=majority",
   { useNewUrlParser: true }
 );
 
