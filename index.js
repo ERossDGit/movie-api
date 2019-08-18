@@ -56,6 +56,9 @@ app.use(function(err, req, res, next) {
 });
 
 var auth = require("./auth")(app);
+app.get("/", (req, res) => {
+  res.send("Welcome to my movie DB!");
+});
 
 // Gets list of all movies
 app.get("/movies", passport.authenticate("jwt", { session: false }), function(
