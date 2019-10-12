@@ -5,6 +5,7 @@ import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { truncate } from 'fs';
 
 export class MainView extends React.Component {
 
@@ -18,7 +19,7 @@ export class MainView extends React.Component {
       movies: null,
       selectedMovie: null,
       user: null,
-      newUser: null
+      newUser: false
     };
   }
 
@@ -48,6 +49,25 @@ export class MainView extends React.Component {
     });
   }
 
+  onNewUser() {
+    this.setState({
+      newUser: true
+    });
+  }
+
+  onReturnClick() {
+    this.setState({
+      selectedMovie: null
+    });
+  }
+
+  onRegister(user) {
+    this.setState({
+      user,
+      newUser: false
+    });
+  }
+
   // This overrides the render() method of the superclass
   // No need to call super() though, as it does nothing by default
   render() {
@@ -55,18 +75,11 @@ export class MainView extends React.Component {
     // before the data is initially loaded
     const { movies, selectedMovie, user, newUser } = this.state;
 
-    if (user === 'New') {
-      return <RegistrationView />;
-    } else if (!user) {
-      return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-    }
+    //if (!user && newUser === false) return <LoginView onRegisterClick={() => this.onRegisterClick()} onLoggedIn={user => this.onLoggedIn(user)} />;
 
-    // if (!user) {
-    //   if (user === 'New')
-    //     return <RegistrationView />;
-    //   else
-    //     return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-    // }
+    if (newUser) return <RegistrationView onRegister={user => this.onRegister(user)} />;
+
+    if (!user) return <LoginView onNewUser={() => this.onNewUser()} onLoggedIn={user => this.onLoggedIn(user)} />;
 
     // before the movies have been loaded
     if (!movies) return <div className="main-view" />;
@@ -74,7 +87,7 @@ export class MainView extends React.Component {
     return (
       <div className="main-view">
         {selectedMovie
-          ? <MovieView movie={selectedMovie} />
+          ? <MovieView movie={selectedMovie} onReturnClick={() => this.onReturnClick()} />
           : movies.map(movie => (
             <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)} />
           ))

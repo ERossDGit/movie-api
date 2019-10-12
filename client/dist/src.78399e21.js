@@ -32371,9 +32371,9 @@ function LoginView(props) {
     /* Send a request to the server for authentication */
 
     /* then call props.onLoggedIn(username) */
+    //setUsername('New');
 
-    setUsername('New');
-    props.onLoggedIn(username);
+    props.onNewUser();
   };
 
   return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
@@ -32446,7 +32446,7 @@ function RegistrationView(props) {
 
     /* then call props.onLoggedIn(username) */
 
-    props.onRegistration(username);
+    props.onRegister(username);
   };
 
   return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
@@ -34163,6 +34163,8 @@ function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
@@ -34198,9 +34200,9 @@ function (_React$Component) {
         className: "return-to-main"
       }, _react.default.createElement("button", {
         onClick: function onClick() {
-          document.location.href = "index.html";
+          return _this2.props.onReturnClick();
         }
-      }, "Return to Main View")));
+      }, "Return to Movie List")));
     }
   }]);
 
@@ -34208,7 +34210,9 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../../../.nvm/versions/node/v12.10.0/lib/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+
+},{}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34227,6 +34231,8 @@ var _registrationView = require("../registration-view/registration-view");
 var _movieCard = require("../movie-card/movie-card");
 
 var _movieView = require("../movie-view/movie-view");
+
+var _fs = require("fs");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34266,7 +34272,7 @@ function (_React$Component) {
       movies: null,
       selectedMovie: null,
       user: null,
-      newUser: null
+      newUser: false
     };
     return _this;
   } //One of the "hooks" available in a React Component
@@ -34299,6 +34305,28 @@ function (_React$Component) {
       this.setState({
         user: user
       });
+    }
+  }, {
+    key: "onNewUser",
+    value: function onNewUser() {
+      this.setState({
+        newUser: true
+      });
+    }
+  }, {
+    key: "onReturnClick",
+    value: function onReturnClick() {
+      this.setState({
+        selectedMovie: null
+      });
+    }
+  }, {
+    key: "onRegister",
+    value: function onRegister(user) {
+      this.setState({
+        user: user,
+        newUser: false
+      });
     } // This overrides the render() method of the superclass
     // No need to call super() though, as it does nothing by default
 
@@ -34313,24 +34341,21 @@ function (_React$Component) {
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user,
-          newUser = _this$state.newUser;
+          newUser = _this$state.newUser; //if (!user && newUser === false) return <LoginView onRegisterClick={() => this.onRegisterClick()} onLoggedIn={user => this.onLoggedIn(user)} />;
 
-      if (user === 'New') {
-        return _react.default.createElement(_registrationView.RegistrationView, null);
-      } else if (!user) {
-        return _react.default.createElement(_loginView.LoginView, {
-          onLoggedIn: function onLoggedIn(user) {
-            return _this3.onLoggedIn(user);
-          }
-        });
-      } // if (!user) {
-      //   if (user === 'New')
-      //     return <RegistrationView />;
-      //   else
-      //     return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-      // }
-      // before the movies have been loaded
-
+      if (newUser) return _react.default.createElement(_registrationView.RegistrationView, {
+        onRegister: function onRegister(user) {
+          return _this3.onRegister(user);
+        }
+      });
+      if (!user) return _react.default.createElement(_loginView.LoginView, {
+        onNewUser: function onNewUser() {
+          return _this3.onNewUser();
+        },
+        onLoggedIn: function onLoggedIn(user) {
+          return _this3.onLoggedIn(user);
+        }
+      }); // before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
@@ -34338,7 +34363,10 @@ function (_React$Component) {
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie
+        movie: selectedMovie,
+        onReturnClick: function onReturnClick() {
+          return _this3.onReturnClick();
+        }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
@@ -34355,7 +34383,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx"}],"../../../.nvm/versions/node/v12.10.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","fs":"../../../.nvm/versions/node/v12.10.0/lib/node_modules/parcel-bundler/src/builtins/_empty.js"}],"../../../.nvm/versions/node/v12.10.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -34512,7 +34540,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50129" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52484" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

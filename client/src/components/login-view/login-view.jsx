@@ -17,8 +17,8 @@ export function LoginView(props) {
     console.log('new_user');
     /* Send a request to the server for authentication */
     /* then call props.onLoggedIn(username) */
-    setUsername('New');
-    props.onLoggedIn(username);
+    //setUsername('New');
+    props.onNewUser();
   };
 
   return (
