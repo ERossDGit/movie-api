@@ -7,6 +7,8 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { truncate } from 'fs';
 
+import './main-view.scss';
+
 export class MainView extends React.Component {
 
   constructor() {
