@@ -35408,7 +35408,7 @@ function (_React$Component) {
 
       _axios.default.get("https://fun-with-flix.herokuapp.com/movies", {
         headers: {
-          Authorization: 'Bearer ${token}'
+          Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
         //Assign the result to the state
@@ -35604,7 +35604,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53175" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57164" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
