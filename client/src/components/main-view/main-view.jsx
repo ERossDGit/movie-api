@@ -39,6 +39,21 @@ export class MainView extends React.Component {
       });
   }
 
+  getMovies(token) {
+    axios.get("https://fun-with-flix.herokuapp.com/movies", {
+      headers: { Authorization: 'Bearer ${token}' }
+    })
+      .then(response => {
+        //Assign the result to the state
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie
@@ -75,20 +90,6 @@ export class MainView extends React.Component {
     });
   }
 
-  getMovies(token) {
-    axios.get("https://fun-with-flix.herokuapp.com/movies", {
-      headers: { Authorization: 'Bearer ${token' }
-    })
-      .then(response => {
-        //Assign the result to the state
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
   // This overrides the render() method of the superclass
   // No need to call super() though, as it does nothing by default
