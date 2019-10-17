@@ -20,15 +20,12 @@ module.exports = router => {
           message: "Something is not right",
           user: user
         });
-        console.log('something is wrong');
       }
       req.login(user, { session: false }, error => {
         if (error) {
           res.send(error);
         }
         var token = generateJWTToken(user.toJSON());
-        console.log('auth token');
-        console.log(token);
         return res.json({ user, token });
       });
     })(req, res);
