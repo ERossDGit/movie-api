@@ -28,6 +28,7 @@ export function LoginView(props) {
         console.log(username)
         console.log(password)
         console.log('no such user')
+        console.log('test msg')
       });
   };
 
