@@ -20,6 +20,7 @@ module.exports = router => {
           message: "Something is not right",
           user: user
         });
+        console.log('something is wrong');
       }
       req.login(user, { session: false }, error => {
         if (error) {
