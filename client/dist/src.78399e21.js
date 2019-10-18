@@ -35392,7 +35392,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios.default.get("https://fun-with-flix.herokuapp.com/movies").then(function (response) {
+      _axios.default.get('https://fun-with-flix.herokuapp.com/movies').then(function (response) {
         // Assign the result to the state
         _this2.setState({
           movies: response.data
@@ -35406,7 +35406,7 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this3 = this;
 
-      _axios.default.get("https://fun-with-flix.herokuapp.com/movies", {
+      _axios.default.get('https://fun-with-flix.herokuapp.com/movies', {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -35416,6 +35416,7 @@ function (_React$Component) {
           movies: response.data
         });
       }).catch(function (error) {
+        console.log(token);
         console.log(error);
       });
     }
@@ -35429,13 +35430,17 @@ function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
+      console.log('onLoggedIn_1');
       console.log(authData);
       this.setState({
         user: authData.user.Username
       });
+      console.log('onLoggedIn_2');
       localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', auth.user.Username);
+      localStorage.setItem('user', authData.user.Username);
+      console.log('onLoggedIn_3');
       this.getMovies(authData.token);
+      console.log('onLoggedIn_4');
     }
   }, {
     key: "onNewUser",
@@ -35604,7 +35609,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57164" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58436" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
