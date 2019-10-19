@@ -35,7 +35,8 @@ export function LoginView(props) {
     /* Send a request to the server for authentication */
     /* then call props.onLoggedIn(username) */
     //setUsername('New');
-    props.onNewUser();
+    // props.onNewUser();
+    window.open('/register', '_self');
   };
 
   return (

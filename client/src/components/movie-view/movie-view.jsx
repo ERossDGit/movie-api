@@ -4,6 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 
+import { Link } from "react-router-dom";
+
 import './movie-view.scss';
 
 export class MovieView extends React.Component {
@@ -40,11 +42,16 @@ export class MovieView extends React.Component {
           <Col xs={1}>Director:  </Col>
           <Col xs={5}>{movie.Director.Name}</Col>
         </Row>
-        <Row>
+        {/* <Row>
           <button onClick={() => this.props.onReturnClick()}>Return to Movie List</button>
-        </Row>
+        </Row> */}
+        <Link to={`/directors/${movie.Director.Name}`}>
+          <Button variant="link">View director info</Button>
+        </Link>
+        <Link to={`/genres/${movie.Genre.Name}`}>
+          <Button variant="link">View genre info</Button>
+        </Link>
       </Container>
-
     );
   }
 }

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
 import './registration-view.scss';
+import Axios from 'axios';
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
@@ -14,10 +15,21 @@ export function RegistrationView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password, email, birthday);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onRegister(username);
+
+    axios.post('https://fun-with-flix.herokuapp.com/login', {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self');
+      })
+      .catch(e => {
+        console.log('error registering the user')
+      });
   };
 
   return (
