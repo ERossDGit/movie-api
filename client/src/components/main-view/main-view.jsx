@@ -7,7 +7,14 @@ import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
 import { truncate } from 'fs';
+
+import Button from 'react-bootstrap/Button';
+
+import { Link } from "react-router-dom";
 
 import './main-view.scss';
 
@@ -21,7 +28,8 @@ export class MainView extends React.Component {
     //Initialize the state to an empty object so we can destructure it later
     this.state = {
       movies: [],
-      user: null
+      user: null,
+      loggedinuser: {}
     };
   }
 
@@ -40,6 +48,21 @@ export class MainView extends React.Component {
       });
   }
 
+  getUser(token) {
+    axios.get(`https://fun-with-flix.herokuapp.com/users/${user}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        //Assign the result to the state
+        this.setState({
+          loggedinuser: response.data
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   //One of the "hooks" available in a React Component
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
@@ -48,6 +71,7 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user')
       });
       this.getMovies(accessToken);
+      // this.getUser(accessToken);
     }
   }
 
@@ -63,8 +87,8 @@ export class MainView extends React.Component {
     });
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-
     this.getMovies(authData.token);
+    this.getUser(authData.token);
 
   }
 
@@ -93,7 +117,7 @@ export class MainView extends React.Component {
   render() {
     // if the state isn't initialized, this will throw on runtime
     // before the data is initially loaded
-    const { movies, user } = this.state;
+    const { movies, user, loggedinuser } = this.state;
 
     //if (!user && newUser === false) return <LoginView onRegisterClick={() => this.onRegisterClick()} onLoggedIn={user => this.onLoggedIn(user)} />;
 
@@ -102,10 +126,17 @@ export class MainView extends React.Component {
     // if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     // before the movies have been loaded
-    // if (!movies) return <div className="main-view" />;
+    if (!movies) return <div className="main-view" />;
 
     return (
       <Router>
+        <div>
+          <Link to={`/users/${user}`}>
+            <Button variant="link">
+              Profile
+            </Button>
+          </Link>
+        </div>
         <div className="main-view">
           <Route exact path="/" render={() => {
             if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
@@ -114,6 +145,18 @@ export class MainView extends React.Component {
           } />
           <Route path="/register" render={() => <RegistrationView />} />
           <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
+          <Route path="/directors/:name" render={({ match }) => {
+            if (!movies) return <div className="main-view" />;
+            return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
+          }
+          } />
+          <Route path="/genre/:name" render={({ match }) => {
+            if (!movies) return <div className="main-view" />;
+            return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
+          }
+          } />
+          {/* <Route path="/users/:username" render={({ match }) => <ProfileView user={loggedinuser} />} /> */}
+          <Route path="/users/:username" render={({ match }) => <ProfileView user={loggedinuser.find(u => u.Username === match.params.username)} />} />
         </div>
       </Router>
     );

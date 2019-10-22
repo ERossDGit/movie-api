@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 import { Link } from "react-router-dom";
 
@@ -48,7 +49,7 @@ export class MovieView extends React.Component {
         <Link to={`/directors/${movie.Director.Name}`}>
           <Button variant="link">View director info</Button>
         </Link>
-        <Link to={`/genres/${movie.Genre.Name}`}>
+        <Link to={`/genre/${movie.Genre.Name}`}>
           <Button variant="link">View genre info</Button>
         </Link>
       </Container>
