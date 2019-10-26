@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import axios from 'axios';
 
 import './registration-view.scss';
 import Axios from 'axios';
@@ -16,7 +17,7 @@ export function RegistrationView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('https://fun-with-flix.herokuapp.com/login', {
+    axios.post('https://fun-with-flix.herokuapp.com/users', {
       Username: username,
       Password: password,
       Email: email,

@@ -28,8 +28,7 @@ export class MainView extends React.Component {
     //Initialize the state to an empty object so we can destructure it later
     this.state = {
       movies: [],
-      user: null,
-      loggedinuser: {}
+      user: null
     };
   }
 
@@ -41,21 +40,6 @@ export class MainView extends React.Component {
         //Assign the result to the state
         this.setState({
           movies: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  getUser(token) {
-    axios.get(`https://fun-with-flix.herokuapp.com/users/${user}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        //Assign the result to the state
-        this.setState({
-          loggedinuser: response.data
         });
       })
       .catch(function (error) {
@@ -75,11 +59,6 @@ export class MainView extends React.Component {
     }
   }
 
-  // onMovieClick(movie) {
-  //   this.setState({
-  //     selectedMovie: movie
-  //   });
-  // }
 
   onLoggedIn(authData) {
     this.setState({
@@ -92,26 +71,6 @@ export class MainView extends React.Component {
 
   }
 
-  // onNewUser() {
-  //   this.setState({
-  //     newUser: true
-  //   });
-  // }
-
-  // onReturnClick() {
-  //   this.setState({
-  //     selectedMovie: null
-  //   });
-  // }
-
-  // onRegister(user) {
-  //   this.setState({
-  //     user,
-  //     newUser: false
-  //   });
-  // }
-
-
   // This overrides the render() method of the superclass
   // No need to call super() though, as it does nothing by default
   render() {
@@ -119,20 +78,14 @@ export class MainView extends React.Component {
     // before the data is initially loaded
     const { movies, user, loggedinuser } = this.state;
 
-    //if (!user && newUser === false) return <LoginView onRegisterClick={() => this.onRegisterClick()} onLoggedIn={user => this.onLoggedIn(user)} />;
-
-    // if (newUser) return <RegistrationView onRegister={user => this.onRegister(user)} />;
-
-    // if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-
     // before the movies have been loaded
     if (!movies) return <div className="main-view" />;
 
     return (
       <Router>
         <div>
-          <Link to={`/users/${user}`}>
-            <Button variant="link">
+          <Link to={"/profile"}>
+            <Button>
               Profile
             </Button>
           </Link>
@@ -155,8 +108,7 @@ export class MainView extends React.Component {
             return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
           }
           } />
-          {/* <Route path="/users/:username" render={({ match }) => <ProfileView user={loggedinuser} />} /> */}
-          <Route path="/users/:username" render={({ match }) => <ProfileView user={loggedinuser.find(u => u.Username === match.params.username)} />} />
+          <Route path="/profile" render={() => <ProfileView movies={movies} />} />
         </div>
       </Router>
     );
