@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 
 import './movie-view.scss';
+import { isNull } from 'util';
 
 export class MovieView extends React.Component {
 
@@ -43,15 +44,17 @@ export class MovieView extends React.Component {
           <Col xs={1}>Director:  </Col>
           <Col xs={5}>{movie.Director.Name}</Col>
         </Row>
-        {/* <Row>
-          <button onClick={() => this.props.onReturnClick()}>Return to Movie List</button>
-        </Row> */}
-        <Link to={`/directors/${movie.Director.Name}`}>
-          <Button variant="link">View director info</Button>
-        </Link>
-        <Link to={`/genre/${movie.Genre.Name}`}>
-          <Button variant="link">View genre info</Button>
-        </Link>
+        <Row className="my-3">
+          <Col xs={3}></Col>
+          <Col xs={6}>
+            <Link to={`/directors/${movie.Director.Name}`}>
+              <Button variant="link">View director info</Button>
+            </Link>
+            <Link to={`/genre/${movie.Genre.Name}`}>
+              <Button variant="link">View genre info</Button>
+            </Link>
+          </Col>
+        </Row>
       </Container>
     );
   }

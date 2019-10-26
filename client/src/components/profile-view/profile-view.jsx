@@ -129,55 +129,42 @@ export class ProfileView extends React.Component {
     return (
 
       <Container>
-        <Link to={"/"}>
-          <Button className='view-btn' variant='primary' type='button'>
-            Back to movies
-          </Button>
-        </Link>
         <Row>
-          <Col xs={3}></Col>
+          <Col xs={7}><h2 className="my-4">User Profile Information</h2></Col>
+        </Row>
+        <Row>
+          {/* <Col xs={1}></Col> */}
           <Col xs={2}>Username:</Col>
           <Col>{username}</Col>
         </Row>
         <Row>
-          <Col xs={3}></Col>
+          {/* <Col xs={1}></Col> */}
           <Col xs={2}>Password:</Col>
           <Col xs={5}>*******</Col>
         </Row>
         <Row>
-          <Col xs={3}></Col>
+          {/* <Col xs={1}></Col> */}
           <Col xs={2}>Email:  </Col>
           <Col xs={5}>{email}</Col>
         </Row>
         <Row>
-          <Col xs={3}></Col>
+          {/* <Col xs={1}></Col> */}
           <Col xs={2}>Birthday:  </Col>
           <Col xs={5}>{birthday}</Col>
         </Row>
 
         <Row>
-          <Col xs={3}></Col>
+          {/* <Col xs={1}></Col> */}
           <Col xs={2}>Favorites list:</Col>
           <Col xs={5}>
             {this.props.movies.map(movie => {
               if (movie._id === faveMovies.find(faveMovie => faveMovie === movie._id)) {
-                return <p key={movie._id}>{movie.Title}<Button variant='danger' size='sm' onClick={() => this.deleteFavoriteMovie(movie._id)}>Remove</Button></p>
+                return <p key={movie._id}>{movie.Title}<Button className="ml-2" variant='danger' size='sm' onClick={() => this.deleteFavoriteMovie(movie._id)}>Remove</Button></p>
               } else if (!faveMovies) {
                 return <p>No Favorite movies added yet...</p>
               }
             })}</Col>
         </Row>
-
-        {/* <div className="favoriteMovies">
-          <div className="label">Favorites list:</div>
-          {this.props.movies.map(movie => {
-            if (movie._id === faveMovies.find(faveMovie => faveMovie === movie._id)) {
-              return <p key={movie._id}>{movie.Title}<Button variant='danger' size='sm' onClick={() => this.deleteFavoriteMovie(movie._id)}>Remove</Button></p>
-            } else if (!faveMovies) {
-              return <p>No Favorite movies added yet...</p>
-            }
-          })}
-        </div> */}
         <Form className="updateInfoForm">
           <Col xs={4}>
             <Form.Group controlId="formBasicUsername">
@@ -205,10 +192,10 @@ export class ProfileView extends React.Component {
           </Col>
           <Row>
             <Button variant="primary" type="button" onClick={e => this.handleSubmit(e)}>
-              Update
+              Update Account Info
             </Button>
-            <Col xs={1}></Col>
-            <Button className='view-btn' variant='primary' type='button' onClick={e => this.deleteUser(e)}>
+            {/* <Col xs={1}></Col> */}
+            <Button className="ml-2" variant='primary' type='button' onClick={e => this.deleteUser(e)}>
               Delete account
             </Button>
 

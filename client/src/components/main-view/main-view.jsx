@@ -17,6 +17,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 
 import './main-view.scss';
+import { isNull } from 'util';
 
 export class MainView extends React.Component {
 
@@ -71,12 +72,21 @@ export class MainView extends React.Component {
 
   }
 
+  onLogOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user: isNull
+    });
+    window.open("/", "_self");
+  }
+
   // This overrides the render() method of the superclass
   // No need to call super() though, as it does nothing by default
   render() {
     // if the state isn't initialized, this will throw on runtime
     // before the data is initially loaded
-    const { movies, user, loggedinuser } = this.state;
+    const { movies, user } = this.state;
 
     // before the movies have been loaded
     if (!movies) return <div className="main-view" />;
@@ -84,11 +94,24 @@ export class MainView extends React.Component {
     return (
       <Router>
         <div>
-          <Link to={"/profile"}>
-            <Button>
-              Profile
+          {user ? (
+            <Link to={"/profile"}>
+              <Button variant="link">
+                Profile
+              </Button>
+            </Link>) : (<div></div>)}
+          {user ? (
+            <Link to={"/"}>
+              <Button variant='link'>
+                Back to movies
             </Button>
-          </Link>
+            </Link>) : (<div></div>)}
+          {user ? (
+            <Link to={"/"}>
+              <Button variant='link' onClick={() => this.onLogOut()}>
+                Log out
+              </Button>
+            </Link>) : (<div></div>)}
         </div>
         <div className="main-view">
           <Route exact path="/" render={() => {
