@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -17,6 +18,20 @@ export class MovieView extends React.Component {
 
     this.state = {};
   }
+
+  addFavoriteMovie(movieId) {
+    axios.post(`https://fun-with-flix.herokuapp.com/users/${localStorage.getItem("user")}/Movies/${movieId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(response => {
+        console.log(response)
+        console.log('successfully added')
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
 
   render() {
     const { movie } = this.props;
@@ -53,6 +68,7 @@ export class MovieView extends React.Component {
             <Link to={`/genre/${movie.Genre.Name}`}>
               <Button variant="link">View genre info</Button>
             </Link>
+            <Button variant="link" onClick={() => this.addFavoriteMovie(movie._id)}>Add movie to Favorites</Button>
           </Col>
         </Row>
       </Container>

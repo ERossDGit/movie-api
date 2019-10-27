@@ -13,6 +13,7 @@ import { ProfileView } from '../profile-view/profile-view';
 import { truncate } from 'fs';
 
 import Button from 'react-bootstrap/Button';
+import Navbar from "react-bootstrap/Navbar";
 
 import { Link } from "react-router-dom";
 
@@ -93,7 +94,8 @@ export class MainView extends React.Component {
 
     return (
       <Router>
-        <div>
+        <Navbar bg='light'>
+          <h1>Fun with Flix</h1>
           {user ? (
             <Link to={"/profile"}>
               <Button variant="link">
@@ -112,7 +114,7 @@ export class MainView extends React.Component {
                 Log out
               </Button>
             </Link>) : (<div></div>)}
-        </div>
+        </Navbar>
         <div className="main-view">
           <Route exact path="/" render={() => {
             if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
