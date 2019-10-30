@@ -39034,8 +39034,14 @@ function (_React$Component) {
 
   _createClass(MovieView, [{
     key: "addFavoriteMovie",
-    value: function addFavoriteMovie(movieId) {
-      _axios.default.post("https://fun-with-flix.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Movies/").concat(movieId), {
+    value: function addFavoriteMovie(event) {
+      event.preventDefault();
+      console.log('movie ' + this.props.movie._id);
+      console.log('user token ' + localStorage.getItem("token"));
+
+      _axios.default.post("https://fun-with-flix.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Movies/").concat(this.props.movie._id), {
+        Username: localStorage.getItem('user')
+      }, {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
@@ -39093,8 +39099,8 @@ function (_React$Component) {
         variant: "link"
       }, "View genre info")), _react.default.createElement(_Button.default, {
         variant: "link",
-        onClick: function onClick() {
-          return _this2.addFavoriteMovie(movie._id);
+        onClick: function onClick(event) {
+          return _this2.addFavoriteMovie(event);
         }
       }, "Add movie to Favorites"))));
     }
@@ -39583,9 +39589,8 @@ function (_React$Component) {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", _this4.state.usernameForm);
 
-        _this4.getUser(localStorage.getItem("token"));
+        _this4.getUser(localStorage.getItem("token")); // document.getElementsByClassName("updateInfoForm")[0].reset();
 
-        document.getElementsByClassName("updateInfoForm")[0].reset();
       }).catch(function (error) {
         console.log("error");
       });
@@ -39656,8 +39661,6 @@ function (_React$Component) {
               return _this5.deleteFavoriteMovie(movie._id);
             }
           }, "Remove"));
-        } else if (!faveMovies) {
-          return _react.default.createElement("p", null, "No Favorite movies added yet...");
         }
       }))), _react.default.createElement(_Form.default, {
         className: "updateInfoForm"
@@ -42117,7 +42120,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49722" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56198" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

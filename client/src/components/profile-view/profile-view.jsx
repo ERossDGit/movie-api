@@ -94,7 +94,7 @@ export class ProfileView extends React.Component {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", this.state.usernameForm);
         this.getUser(localStorage.getItem("token"));
-        document.getElementsByClassName("updateInfoForm")[0].reset();
+        // document.getElementsByClassName("updateInfoForm")[0].reset();
       })
       .catch(error => {
         console.log("error");
@@ -160,8 +160,6 @@ export class ProfileView extends React.Component {
             {this.props.movies.map(movie => {
               if (movie._id === faveMovies.find(faveMovie => faveMovie === movie._id)) {
                 return <p key={movie._id}>{movie.Title}<Button className="ml-2" variant='danger' size='sm' onClick={() => this.deleteFavoriteMovie(movie._id)}>Remove</Button></p>
-              } else if (!faveMovies) {
-                return <p>No Favorite movies added yet...</p>
               }
             })}</Col>
         </Row>

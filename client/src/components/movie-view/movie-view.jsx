@@ -19,10 +19,15 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
-  addFavoriteMovie(movieId) {
-    axios.post(`https://fun-with-flix.herokuapp.com/users/${localStorage.getItem("user")}/Movies/${movieId}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-    })
+  addFavoriteMovie(event) {
+    event.preventDefault();
+    console.log('movie ' + this.props.movie._id);
+    console.log('user token ' + localStorage.getItem("token"));
+    axios.post(`https://fun-with-flix.herokuapp.com/users/${localStorage.getItem("user")}/Movies/${this.props.movie._id}`,
+      { Username: localStorage.getItem('user') },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      })
       .then(response => {
         console.log(response)
         console.log('successfully added')
@@ -68,7 +73,7 @@ export class MovieView extends React.Component {
             <Link to={`/genre/${movie.Genre.Name}`}>
               <Button variant="link">View genre info</Button>
             </Link>
-            <Button variant="link" onClick={() => this.addFavoriteMovie(movie._id)}>Add movie to Favorites</Button>
+            <Button variant="link" onClick={(event) => this.addFavoriteMovie(event)}>Add movie to Favorites</Button>
           </Col>
         </Row>
       </Container>
