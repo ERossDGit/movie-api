@@ -10,6 +10,8 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const path = require("path");
+
 const passport = require("passport");
 require("./passport");
 
@@ -50,9 +52,14 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(morgan("common"));
 app.use(express.static("public"));
+app.use('/client', express.static(path.join(__dirname, 'dist')));
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("There has been an error.");
+});
+
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 var auth = require("./auth")(app);

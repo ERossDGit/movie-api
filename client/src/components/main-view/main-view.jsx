@@ -98,7 +98,7 @@ export class MainView extends React.Component {
     let { user } = this.state;
 
     return (
-      <Router>
+      <Router basename="/client">
         <Navbar bg='light '>
           <h1>Fun with Flix</h1>
           {user ? (
