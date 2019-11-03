@@ -53,6 +53,7 @@ app.use(bodyParser.json());
 app.use(morgan("common"));
 app.use(express.static("public"));
 app.use('/client', express.static(path.join(__dirname, 'dist')));
+
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("There has been an error.");
