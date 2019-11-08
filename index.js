@@ -51,17 +51,21 @@ mongoose.connect(
 // app.use initializations
 app.use(bodyParser.json());
 app.use(morgan("common"));
+
+var auth = require("./auth")(app);
+
 app.use(express.static("public"));
 app.use('/client', express.static(path.join(__dirname, 'dist')));
+
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send("There has been an error.");
 });
 
-app.get("/client/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
 
 var auth = require("./auth")(app);
 app.get("/", (req, res) => {
