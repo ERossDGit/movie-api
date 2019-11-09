@@ -52,11 +52,13 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(morgan("common"));
 
+//added this
 var auth = require("./auth")(app);
 
 app.use(express.static("public"));
 app.use('/client', express.static(path.join(__dirname, 'dist')));
 
+//moved this
 app.get("/client/*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
