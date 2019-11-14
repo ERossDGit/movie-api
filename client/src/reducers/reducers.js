@@ -1,7 +1,7 @@
 // src/reducers/reducers.js
 import { combineReducers } from 'redux';
 
-import { SET_FILTER, SET_MOVIES, SET_USER } from '../actions/actions';
+import { SET_FILTER, SET_MOVIES, SET_USER, SET_SORT_COLUMN } from '../actions/actions';
 
 function visibilityFilter(state = '', action) {
   switch (action.type) {
@@ -30,10 +30,20 @@ function user(state = '', action) {
   }
 }
 
+function sortColumn(state = 'Title', action) {
+  switch (action.type) {
+    case SET_SORT_COLUMN:
+      return action.value;
+    default:
+      return state;
+  }
+}
+
 const moviesApp = combineReducers({
   visibilityFilter,
   movies,
-  user
+  user,
+  sortColumn
 });
 
 export default moviesApp;
